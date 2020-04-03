@@ -156,7 +156,7 @@
         } function createBack() {
             var newCnvs = document.getElementById("teste").getContext("2d");
             newCnvs.clearRect(0, 0, teste.width, teste.height);
-            var cntMultPi = (Math.sin(Math.PI*count/100 - Math.PI/2)) + 1)/2;
+            var cntMultPi = (Math.sin(Math.PI*count/100 - Math.PI/2) + 1)/2;
             for(var g = 0; g < scl.length; g++) {
                 scl[g] = tblColors[numColors][g] + (tblColors[(numColors + 1) % tblColors.length][g] - tblColors[numColors][g])*cntMultPi;
             } count++;
