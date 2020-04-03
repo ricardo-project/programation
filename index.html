@@ -153,13 +153,12 @@
             } else { //---> Posição indefinida
                 return undefined;
             }
-        } alert("oooooiin");
-        function createBack() {
+        } function createBack() {
             var newCnvs = document.getElementById("teste").getContext("2d");
             newCnvs.clearRect(0, 0, teste.width, teste.height);
-            var cntMultPi = count*Math.PI/100;
+            var cntMultPi = (1 - Math.pow(Math.abs(Math.cos(count*Math.PI/100)), 0.5)*Math.cos(count*Math.PI/100)/Math.abs(Math.cos(count*Math.PI/100)))/2;
             for(var g = 0; g < scl.length; g++) {
-                scl[g] = tblColors[numColors][g]; //+ (tblColors[(numColors + 1) % tblColors.length][g] - tblColors[numColors][g])*(1 - Math.pow(Math.abs(Math.cos(cntMultPi)))*Math.cos(cntMultPi)/Math.abs(Math.cos(cntMultPi))/2;
+                scl[g] = tblColors[numColors][g] + (tblColors[(numColors + 1) % tblColors.length][g] - tblColors[numColors][g])*cntMultPi;
             } count++;
             if(count == 100) {
                 numColors = (numColors + 1) % tblColors.length;
