@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Programation</title>
+        <meta charset=UTF-8>
+        <link rel="shortcut icon" type="image/x-icon" href="https://image.flaticon.com/icons/png/512/1313/1313837.png">
+        <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto">
+    </head>
+    <style>
+        body {
+            background-color: rgb(75,75,75);
+        } #testeSect {
+            background: linear-gradient(rgba(20,20,20,0.9), rgba(20,20,20,0.8)), url("https://miro.medium.com/max/1000/1*Q5_t-R0xRs07wW1Kf8rCSw.gif") no-repeat top fixed;
+            background-size: cover;
+            height: 700px;
+            margin-left: -8px;
+            margin-top: -8px;
+            margin-right: -8px;
+            box-shadow: rgba(20,20,20,0.75) 0px 5px 6px;
+        } #title {
+            font-family: Roboto;
+            margin-top: -425px;
+            font-size: 100px;
+            text-align: center;
+            text-shadow: rgba(100,100,100,0.7) 4px 4px 3px;
+            font-weight: bold;
+            position: relative;
+            cursor: pointer;
+            transition: margin-top 0.5s, font-size 0.5s, letter-spacing 0.5s;
+        } @media only screen and (min-width: 0px) {
+            #title {
+                margin-top: -390px;
+                font-size: 80px;
+                letter-spacing: -6px;
+            }
+        } @media only screen and (min-width: 720px) {
+            #title {
+                margin-top: -410px;
+                font-size: 120px;
+                letter-spacing: -9px;
+            }
+        } @media only screen and (min-width: 1080px) {
+            #title {
+                margin-top: -430px;
+                font-size: 160px;
+                letter-spacing: -12px;
+            }
+        } #circle {
+            background-color: slateblue;
+            position: absolute;
+            filter: blur(4px);
+            border-radius: 120.5px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+    </style>
+    <body onload="widtSect()" onresize="widtBrowser(); widtSect()" onmousemove="coordCursor[0] = indicCursor(event, false, 'testeSect'); coordCursor[1] = indicCursor(event, true, 'testeSect') /*Respectivamente, coordenadas horizontal e vertical*/">
+        <article style="height: 700px; overflow: hidden; width: 100%; margin: -8px -8px 0px -8px; position: relative">
+            <section id=testeSect>
+                <canvas id=teste height=700></canvas>
+            </section>
+            <p id=title>Programation</p>
+        </article>
+        <!--p id=pgt style="color: white"></p-->
+    </body>
+    <script>
+        var widt;
+        var widtAnt;
+        var numPoint = 35;
+        var coordCursor = new Array(2); //Vetor ---> (Posição X, Posição Y)!
+        var angle = new Array();
+        var positX = new Array();
+        var positY = new Array();
+        var senseMov = new Array();
+        var vlct = new Array();
+        var numColors = 0; //---> Número que representa a cor atual!
+        var tblColors = new Array([255, 165, 0], [255, 0, 255], [244, 164, 96], [50, 205, 50], [0, 255, 255], [210, 105, 30], [173, 255, 47]); //---> Cores em escala RGB (laranja, magenta, marrom, verde limão, ciano, chocolate, verde amarelo)!
+        var scl = new Array(255, 165, 0); //---> Escala RGB (Primeiro valor: R; Segundo valor: G; Terceiro valor: B)!
+        var count = 0;
+        for(var t = 0; t < numPoint; t++) {
+            positX.push(Math.round(Math.random()*(window.innerWidth + 200) - 100));
+            positY.push(Math.round(Math.random()*900) - 100);
+            angle.push(5*Math.PI*Math.random()*Math.pow(-1, Math.round(Math.random()))/12); // Ângulo em radianos; Máxima inclinação possível: aproximadamente 75º; Mínima inclinação possível: aproximadamente -75º ---> ]-75º, 75º[
+            senseMov.push(Math.pow(-1, Math.round(Math.random())));
+            vlct.push(Math.round(Math.random()) + 1);
+        } widtBrowser();
+        function widtBrowser() {
+            document.getElementById("teste").width = window.innerWidth; 
+            document.getElementById("testeSect").style.width = window.innerWidth;
+            createBack();
+            widt = window.innerWidth;
+        } function alph(valor, newcond) {
+            var numAlph;
+            if(newcond == false) { //---> Posição X
+                numAlph = 2*(1 - Math.abs((valor - window.innerWidth/2)/(window.innerWidth/2 + 100)));
+            } else if(newcond == true) { //---> Posição Y
+                numAlph = 2*(1 - Math.abs((valor - 350)/450));
+            } if(numAlph > 1) {
+                numAlph = 1;
+            } return numAlph;
+        } var countPi = 0;
+        var condCountPi = true;
+        setInterval(function() {
+            var wP = window.innerWidth/1920;
+            for(var k = 0; k < numPoint; k++) {
+                var condAdd = false;
+                var addX = vlct[k]*wP;
+                var addY = vlct[k]*wP;
+                if(coordCursor[1] < 700) {
+                    var distX = coordCursor[0] - positX[k];
+                    var distY = coordCursor[1] - positY[k];
+                    var dist = Math.pow((Math.pow(distX, 2) + Math.pow(distY, 2)), 0.5);
+                    var anglePoint = Math.atan(distY/distX)*(distY/distX)/Math.abs(distY/distX);
+                    if(Math.abs(distX) <= 120*wP && Math.abs(distY) <= 120*wP && Math.pow((Math.pow((120*wP), 2) - Math.pow(distX, 2)), 0.5) >= Math.abs(distY)) {
+                        var consAdd = -(10*Math.cos(dist*Math.PI/(120*wP)) + 11);
+                        addX *= consAdd*Math.cos(anglePoint)*distX/Math.abs(distX);
+                        addY *= consAdd*Math.sin(anglePoint)*distY/Math.abs(distY);
+                    } else {
+                        condAdd = true;
+                    }
+                } else {
+                    condAdd = true;
+                } if(condAdd == true) {
+                    addX *= Math.cos(angle[k])*senseMov[k];
+                    addY *= Math.sin(angle[k])*senseMov[k];
+                    if(condCountPi == true) {
+                        var fatorPi = (Math.sin(countPi - Math.PI/2) + 1)/2;
+                        addX *= fatorPi;
+                        addY *= fatorPi;
+                    }
+                } positX[k] += addX;
+                positY[k] += addY;
+            } if(widt !== widtAnt && widtAnt !== undefined) {
+                for(var k = 0; k < numPoint; k++) {
+                    positX[k] *= widt/widtAnt;
+                }
+            } for(var i = 0; i < numPoint; i++) {
+                if(positX[i] > window.innerWidth + 100) {
+                    positX[i] = -100;
+                } else if(positX[i] < -100) {
+                    positX[i] = window.innerWidth + 100;
+                } if(positY[i] > 800) {
+                    positY[i] = -100;
+                } else if(positY[i] < -100) {
+                    positY[i] = 800;
+                }
+            } createBack();
+            widtAnt = widt;
+            if(condCountPi == true) {
+                countPi += Math.PI/100;
+                if(countPi >= Math.PI) {
+                    condCountPi = false;
+                }
+            }
+        }, 30);
+        function indicCursor(event, newcond, newid) {
+            if(newcond == false) { //---> Posição X
+                return (event.clientX - document.getElementById(newid).offsetLeft + window.scrollX);
+            } else if(newcond == true) { //---> Posição Y
+                return (event.clientY - document.getElementById(newid).offsetTop + window.scrollY);
+            } else { //---> Posição indefinida
+                return undefined;
+            }
+        } function createBack() {
+            var newCnvs = document.getElementById("teste").getContext("2d");
+            newCnvs.clearRect(0, 0, teste.width, teste.height);
+            for(var g = 0; g < scl.length; g++) {
+                scl[g] += (tblColors[(numColors + 1) % tblColors.length][g] - tblColors[numColors][g])/100;
+            } count++;
+            if(count == 100) {
+                numColors = (numColors + 1) % tblColors.length;
+                for(var s = 0; s < scl.length; s++) {
+                    scl[s] = Math.round(scl[s]);
+                } count = 0;
+            } document.getElementById("title").style.color = "rgba(" + scl[0] + ", " + scl[1] + ", " + scl[2] + ")";
+            for(var u = 0; u < numPoint; u++) {
+                for(var w = u + 1; w < numPoint; w++) {
+                    var newgrd = newCnvs.createRadialGradient(window.innerWidth/2, 350, 25, window.innerWidth/2, 350, 5*window.innerWidth/16);
+                    var consDist = Math.pow((Math.pow((positX[u] - positX[w]), 2) + Math.pow((positY[u] - positY[w]), 2)), 0.5);
+                    var wP = window.innerWidth/1920; //---> Constante de proporcionalidade
+                    if(consDist < (50 + 50*wP)) {
+                        consDist = 1;
+                    } else if(consDist >= (50 + 50*wP) && consDist <= (50 + 450*wP)) {
+                        consDist = 1 - (consDist - (50 + 50*wP))/(400*wP);
+                    } else if(consDist > (50 + 450*wP)) {
+                        consDist = 0;
+                    } var alpha = Math.pow((consDist*alph(positX[u], false)*alph(positX[w], false)*alph(positY[u], true)*alph(positY[w], true)), 1/3);
+                    if(alpha !== 0) {
+                        newgrd.addColorStop(0, "rgba(" + scl[0] + ", " + scl[1] + ", " + scl[2] + ", " + alpha + ")");
+                        newgrd.addColorStop(1, "rgba(" + (255 - scl[0]) + ", " + (255 - scl[1]) + ", " + (255 - scl[2]) + ", " + alpha + ")");
+                        newCnvs.fillStyle = newgrd;
+                        var exp = (positX[w] - positX[u])/Math.abs(positX[w] - positX[u]);
+                        var angleTan = Math.atan((positY[w] - positY[u])*Math.pow(-1, exp)/(positX[w] - positX[u]));
+                        newCnvs.beginPath();
+                        newCnvs.lineTo((positX[u] - 0.5*Math.sin(angleTan)), (positY[u] - 0.5*Math.cos(angleTan)));
+                        newCnvs.lineTo((positX[w] - 0.5*Math.sin(angleTan)), (positY[w] - 0.5*Math.cos(angleTan)));
+                        newCnvs.lineTo((positX[w] + 0.5*Math.sin(angleTan)), (positY[w] + 0.5*Math.cos(angleTan)));
+                        newCnvs.lineTo((positX[u] + 0.5*Math.sin(angleTan)), (positY[u] + 0.5*Math.cos(angleTan)));
+                        newCnvs.fill();
+                    }
+                }
+            } newCnvs.fillStyle = "white";
+            for(var k = 0; k < numPoint; k++) {
+                newCnvs.beginPath();
+                newCnvs.arc(positX[k], positY[k], 1, 0, Math.PI*2, true);
+                newCnvs.fill();
+            }
+        }
+    </script>
+</html>
