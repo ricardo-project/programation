@@ -45,13 +45,6 @@
                 font-size: 160px;
                 letter-spacing: -12px;
             }
-        } #circle {
-            background-color: slateblue;
-            position: absolute;
-            filter: blur(4px);
-            border-radius: 120.5px;
-            opacity: 0;
-            transition: opacity 0.5s;
         }
     </style>
     <body onload="widtSect()" onresize="widtBrowser(); widtSect()" onmousemove="coordCursor[0] = indicCursor(event, false, 'testeSect'); coordCursor[1] = indicCursor(event, true, 'testeSect') /*Respectivamente, coordenadas horizontal e vertical*/">
@@ -61,7 +54,6 @@
             </section>
             <p id=title>Programation</p>
         </article>
-        <!--p id=pgt style="color: white"></p-->
     </body>
     <script>
         var widt;
