@@ -55,7 +55,7 @@
         }
     </style>
     <body onload="widtSect()" onresize="widtBrowser(); widtSect()" onmousemove="coordCursor[0] = indicCursor(event, false, 'testeSect'); coordCursor[1] = indicCursor(event, true, 'testeSect') /*Respectivamente, coordenadas horizontal e vertical*/">
-        <article style="height: 700px; overflow: hidden; width: 100%; margin: -8px -8px 0px -8px; position: relative">
+        <article style="height: 700px; overflow: hidden; width: 100%; margin: -8px; position: relative">
             <section id=testeSect>
                 <canvas id=teste height=700></canvas>
             </section>
@@ -73,8 +73,8 @@
         var positY = new Array();
         var senseMov = new Array();
         var vlct = new Array();
-        var numColors = 0; //---> Número que representa a cor atual!
         var tblColors = new Array([255, 165, 0], [255, 0, 255], [244, 164, 96], [50, 205, 50], [0, 255, 255], [210, 105, 30], [173, 255, 47]); //---> Cores em escala RGB (laranja, magenta, marrom, verde limão, ciano, chocolate, verde amarelo)!
+        var numColors = Math.round(Math.random()*(tblColors.length - 1)); //---> Número que representa a cor atual!
         var scl = new Array(255, 165, 0); //---> Escala RGB (Primeiro valor: R; Segundo valor: G; Terceiro valor: B)!
         var count = 0;
         for(var t = 0; t < numPoint; t++) {
