@@ -67,7 +67,7 @@
         var vlct = new Array();
         var tblColors = new Array([255, 165, 0], [255, 0, 255], [244, 164, 96], [50, 205, 50], [0, 255, 255], [210, 105, 30], [173, 255, 47]); //---> Cores em escala RGB (laranja, magenta, marrom, verde limão, ciano, chocolate, verde amarelo)!
         var numColors = Math.round(Math.random()*(tblColors.length - 1)); //---> Número que representa a cor atual!
-        var scl = new Array(255, 165, 0); //---> Escala RGB (Primeiro valor: R; Segundo valor: G; Terceiro valor: B)!
+        var scl = new Array(tblColors[numColors][0], tblColors[numColors][1], tblColors[numColors][2]); //---> Escala RGB (Primeiro valor: R; Segundo valor: G; Terceiro valor: B)!
         var count = 0;
         for(var t = 0; t < numPoint; t++) {
             positX.push(Math.round(Math.random()*(window.innerWidth + 200) - 100));
@@ -157,7 +157,7 @@
             var newCnvs = document.getElementById("teste").getContext("2d");
             newCnvs.clearRect(0, 0, teste.width, teste.height);
             for(var g = 0; g < scl.length; g++) {
-                scl[g] += (tblColors[(numColors + 1) % tblColors.length][g] - tblColors[numColors][g])/100;
+                scl[g] = tblColors[numColors][g] + (tblColors[(numColors + 1) % tblColors.length][g] - tblColors[numColors][g])*Math.sin(count*Math.PI/200);
             } count++;
             if(count == 100) {
                 numColors = (numColors + 1) % tblColors.length;
